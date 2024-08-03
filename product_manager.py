@@ -104,7 +104,6 @@ class ProductManager:
         # show the total price and change the quantities of each product
 
     def rate_menu(self):
-        
         for i in range(len(self.shopping_cart)):
             print(i , self.shopping_cart[i])
         prod = input("pls enterthe number of your chosen product  \n or if you want to quit enter 00 " , )
@@ -119,3 +118,32 @@ class ProductManager:
         
         #creat a menu that costumer choos one of his cart product and add a rating to it
 
+manage = ProductManager()
+
+while True:
+    print("press 'c' to search by category")
+    print("press 'n' to search by products name")
+    print("press 'm' to see your shopping cart")
+    print("press 'f' to submit your shopping")
+    print("press 'x' to exit")
+    inp = input().upper()
+
+    if inp == 'C':
+        cat = input("write your category")
+        selected_product = manage.search_by_category(cat)
+        manage.add_to_cart(selected_product)
+
+    if inp == 'N':
+        name = input("write your product name")
+        selected_product = manage.search_by_name(name)
+        manage.add_to_cart(selected_product)
+
+    if inp == 'M':
+        manage.show_cart()
+
+    if inp == 'F':
+        manage.kharid_nahaee()
+
+    if inp == 'X':
+        manage.save()
+        exit()
