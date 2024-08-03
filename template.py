@@ -42,6 +42,12 @@ class Products:
             self.__rates.append(int(rate))
             return
         print("wrong rate")
+    
+    def quantity_reducer(self):
+        if self.__quantity == 0:
+            print("product not available")
+        else:
+            pass
 
     
 class ProductManager:
