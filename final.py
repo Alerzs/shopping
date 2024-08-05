@@ -10,12 +10,12 @@ class Products:
         self.__rates = []
 
     @staticmethod
-    def mean(lst):
+    def __mean(lst):
         if len(lst) > 0:
             return round(sum(lst) / len(lst) , 2)
         return 0
     @staticmethod
-    def rate_check(rate):
+    def __rate_check(rate):
         try:
             if 0 <= int(rate) <= 5:
                 return True
@@ -32,7 +32,7 @@ class Products:
         return self.__category
     
     def get_rate(self):
-        return self.mean(self.__rates)
+        return self.__mean(self.__rates)
     
     def get_price(self):
         return self.__price
@@ -41,7 +41,7 @@ class Products:
         return self.__name
     
     def set_rate(self , rate):
-        if self.rate_check(rate):
+        if self.__rate_check(rate):
             self.__rates.append(int(rate))
             return
         print("wrong rate")
@@ -109,6 +109,15 @@ class ProductManager:
         for indx , prod in enumerate(self.shoping_cart):
             print(f"{indx+1}) {prod.get_name()}\t{prod.get_category()}\t{prod.get_price()}$\tqnt: {prod.get_quantity()}\trate: {prod.get_rate()}")
 
+
+    def remove_from_cart(self, index: int):  
+        try:  
+            removed_product = self.shoping_cart.pop(index - 1)  
+            print(f"{removed_product.get_name()} has been removed from your cart")  
+        except IndexError:  
+            print("Invalid index. Unable to remove")  
+
+
     def kharid_nahaee(self):
         price = 0
         for prod in self.shoping_cart:
@@ -130,18 +139,19 @@ class ProductManager:
             self.shoping_cart[int(product)-1].set_rate(rate)
             print("thanks for your rate")
         else:
-            print("your cat is empty!!!")
+            print("your cart is empty!!!")
 
 
 
 manage = ProductManager()
 
 while True:
-    print("press 'c' to search by category")
-    print("press 'n' to search by products name")
-    print("press 'm' to see your shopping cart")
-    print("press 'f' to submit your shopping")
-    print("press 'x' to exit")
+    print("press 'C' to search by category")
+    print("press 'N' to search by products name")
+    print("press 'M' to see your shopping cart")
+    print("Press 'R' to remove an item from your cart")  
+    print("press 'F' to submit your shopping")
+    print("press 'X' to exit")
     inp = input().upper()
 
     if inp == 'C':
@@ -152,19 +162,28 @@ while True:
             manage.add_to_cart(selected_product)
 
 
-    if inp == 'N':
+    elif inp == 'N':
         name = input("write your product name : ")
         selected_product = manage.search_by_name(name)
         if selected_product is not False:
             print("product was added to your cart!!!")
             manage.add_to_cart(selected_product)
-  
-
-    if inp == 'M':
+    
+    
+    elif inp == 'M':
         manage.rate_menu()
 
 
-    if inp == 'F':
+    elif inp == 'R':  
+        manage.show_cart()  
+        if manage.shoping_cart:  
+            index = int(input("enter the product num you want to remove: "))  
+            manage.remove_from_cart(index)  
+        else:  
+            print("Your cart is empty!")  
+
+
+    elif inp == 'F':
         price = manage.kharid_nahaee()
         if price:
             manage.show_cart()
@@ -175,7 +194,7 @@ while True:
                 print("your order was submited")
         
 
-    if inp == 'X':
+    elif inp == 'X':
         manage.save()
         exit()
 
